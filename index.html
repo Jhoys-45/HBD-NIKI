@@ -1,144 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
   <title>IVI WEB</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-    <div class="popup-container">
-        <h1 class="title" id="ivi-title">FELIZ CUMPLEAÑOS CHICA HELADO</h1>
-    </div>
+  <div class="popup-container">
+    <h1 id="animated-text" class="animated-word"></h1>
+  </div>
 
   <script>
-  setTimeout(() => {
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.textContent = '💙';
-      el.style.position = 'fixed';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-      el.style.animation = 'fall 6s linear forwards';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
-    }, 400);
-  }, 0);
-  </script>
+    const mensaje = "FELIZ CUMPLEAÑOS CHICA HELADO";
+    const palabras = mensaje.split(" ");
+    const contenedor = document.getElementById("animated-text");
 
+    let i = 0;
 
-  <script>
-  setTimeout(() => {
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.textContent = 'TE QUIAMO';
-      el.className = 'te-quiamo'; // ✅ asigna clase CSS
-      el.style.position = 'fixed';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animation = 'fall 6s linear forwards';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
-    }, 400);
-  }, 150);
-  </script>
+    function mostrarPalabra() {
+      contenedor.textContent = palabras[i];
+      contenedor.classList.remove("animated-word");
+      setTimeout(() => {
+        contenedor.classList.add("animated-word");
+      }, 10);
 
-  <script>
-  setTimeout(() => {
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.textContent = '🌻';
-      el.style.position = 'fixed';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-      el.style.animation = 'fall 6s linear forwards';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
-    }, 400);
-  }, 300);
-  </script>
-
-  <script>
-  setTimeout(() => {
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.textContent = 'ME ENCANTAS';
-      el.className = 'me-encantas'; // ✅ asigna clase CSS
-      el.style.position = 'fixed';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animation = 'fall 6s linear forwards';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
-    }, 400);
-  }, 400);
-  </script>
-
-  <script>
-  setTimeout(() => {
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.textContent = 'TE DINOAMO';
-      el.className = 'te-dinoamo'; // ✅ asigna clase CSS
-      el.style.position = 'fixed';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animation = 'fall 6s linear forwards';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
-    }, 400);
-  }, 500);
-  </script>
-
-  <script>
-  let modoActual = 'hada'; // empieza con polvo de hada
-
-  // Alternar modo cada 10 segundos
-  setInterval(() => {
-    modoActual = modoActual === 'hada' ? 'burbuja' : 'hada';
-  }, 10000);
-
-  document.addEventListener('mousemove', (e) => {
-    const partícula = document.createElement('div');
-    const size = Math.random() * 20 + 10;
-
-    partícula.style.position = 'fixed';
-    partícula.style.left = `${e.pageX}px`;
-    partícula.style.top = `${e.pageY}px`;
-    partícula.style.width = `${size}px`;
-    partícula.style.height = `${size}px`;
-    partícula.style.borderRadius = '50%';
-    partícula.style.pointerEvents = 'none';
-    partícula.style.zIndex = 9999;
-    partícula.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-
-    if (modoActual === 'hada') {
-      // Polvo de hada: blanco brillante con violeta
-      partícula.style.background = 'white';
-      partícula.style.opacity = 0.8;
-      partícula.style.boxShadow = '0 0 12px white, 0 0 24px violet';
-    } else {
-      // Burbuja colorida: colores pastel aleatorios
-      const colores = ['#ff7eb9', '#ffd700', '#89f0e2', '#ffa07a', '#b19cd9'];
-      const color = colores[Math.floor(Math.random() * colores.length)];
-      partícula.style.background = color;
-      partícula.style.opacity = 0.6;
-      partícula.style.boxShadow = `0 0 8px ${color}, 0 0 16px white`;
+      i++;
+      if (i < palabras.length) {
+        setTimeout(mostrarPalabra, 2000); // Tiempo entre palabras
+      } else {
+        // Mostrar mensaje completo solo una vez
+        setTimeout(() => {
+          contenedor.textContent = mensaje;
+          contenedor.classList.remove("animated-word");
+          setTimeout(() => {
+            contenedor.classList.add("animated-word");
+          }, 10);
+        }, 2500);
+      }
     }
 
-    // Animación inicial
-    partícula.style.transform = `translate(-50%, -50%) scale(${Math.random() * 0.8 + 0.6})`;
-    document.body.appendChild(partícula);
+    mostrarPalabra();
+  </script>
 
-    // Animación de desvanecimiento
+  <!-- Tus scripts de emojis y efectos siguen igual -->
+  <script>
     setTimeout(() => {
-      partícula.style.opacity = 0;
-      partícula.style.transform += ' translateY(-10px) scale(0.5)';
-      setTimeout(() => partícula.remove(), 1000);
-    }, 10);
-  });
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.textContent = '💙';
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        el.style.animation = 'fall 6s linear forwards';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 400);
+    }, 0);
+  </script>
+
+  <script>
+    setTimeout(() => {
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.textContent = 'TE QUIAMO';
+        el.className = 'te-quiamo';
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animation = 'fall 6s linear forwards';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 400);
+    }, 150);
+  </script>
+
+  <script>
+    setTimeout(() => {
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.textContent = '🌻';
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        el.style.animation = 'fall 6s linear forwards';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 400);
+    }, 300);
+  </script>
+
+  <script>
+    setTimeout(() => {
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.textContent = 'ME ENCANTAS';
+        el.className = 'me-encantas';
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animation = 'fall 6s linear forwards';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 400);
+    }, 400);
+  </script>
+
+  <script>
+    setTimeout(() => {
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.textContent = 'TE DINOAMO';
+        el.className = 'te-dinoamo';
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animation = 'fall 6s linear forwards';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 400);
+    }, 500);
+  </script>
+
+  <script>
+    let modoActual = 'hada';
+
+    setInterval(() => {
+      modoActual = modoActual === 'hada' ? 'burbuja' : 'hada';
+    }, 10000);
+
+    document.addEventListener('mousemove', (e) => {
+      const partícula = document.createElement('div');
+      const size = Math.random() * 20 + 10;
+
+      partícula.style.position = 'fixed';
+      partícula.style.left = `${e.pageX}px`;
+      partícula.style.top = `${e.pageY}px`;
+      partícula.style.width = `${size}px`;
+      partícula.style.height = `${size}px`;
+      partícula.style.borderRadius = '50%';
+      partícula.style.pointerEvents = 'none';
+      partícula.style.zIndex = 9999;
+      partícula.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+
+      if (modoActual === 'hada') {
+        partícula.style.background = 'white';
+        partícula.style.opacity = 0.8;
+        partícula.style.boxShadow = '0 0 12px white, 0 0 24px violet';
+      } else {
+        const colores = ['#ff7eb9', '#ffd700', '#89f0e2', '#ffa07a', '#b19cd9'];
+        const color = colores[Math.floor(Math.random() * colores.length)];
+        partícula.style.background = color;
+        partícula.style.opacity = 0.6;
+        partícula.style.boxShadow = `0 0 8px ${color}, 0 0 16px white`;
+      }
+
+      partícula.style.transform = `translate(-50%, -50%) scale(${Math.random() * 0.8 + 0.6})`;
+      document.body.appendChild(partícula);
+
+      setTimeout(() => {
+        partícula.style.opacity = 0;
+        partícula.style.transform += ' translateY(-10px) scale(0.5)';
+        setTimeout(() => partícula.remove(), 1000);
+      }, 10);
+    });
   </script>
 
 </body>
-
 </html>
