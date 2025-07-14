@@ -113,10 +113,10 @@ body {
     0 0 6px #ff0000,
     0 0 12px #cc0000,
     0 0 18px #990000;
-  animation: pulsePink 1.5s infinite ease-in-out;
+  animation: pulsePinki 1.5s infinite ease-in-out;
 }
 
-@keyframes pulsePink {
+@keyframes pulsePinki {
   0% {
     text-shadow: 0 0 6px #ff0000, 0 0 12px #790101, 0 0 18px #ec0b0b;
     transform: scale(1);
@@ -165,3 +165,17 @@ body {
     opacity: 1;
   }
 }
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    transform: translateX(40px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
