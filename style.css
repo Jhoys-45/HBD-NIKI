@@ -165,17 +165,3 @@ body {
     opacity: 1;
   }
 }
-
-@keyframes fall {
-  0% {
-    top: -10%;
-    transform: translateX(0px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    top: 110%;
-    transform: translateX(40px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
