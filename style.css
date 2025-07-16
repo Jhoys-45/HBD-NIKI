@@ -1,222 +1,113 @@
-.animated-word {
-  font-size: 50px;
-  text-align: center;
-  color: rgb(161, 8, 98);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: zoomFade 2s ease-in-out forwards;
-  opacity: 0;
-  white-space: nowrap;
-  text-shadow: 0 0 10px violet, 0 0 20px rgb(72, 10, 131);
-}
-
-@keyframes zoomFade {
-  0% {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0;
-  }
-}
-
-/* NUEVO BLOQUE para la frase completa final */
-.animated-final {
-  font-size: 50px;
-  text-align: center;
-  color: rgb(161, 8, 98);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: zoomStay 2s ease-in-out forwards;
-  opacity: 0;
-  white-space: nowrap;
-  text-shadow: 0 0 10px violet, 0 0 20px rgb(72, 10, 131);
-}
-
-@keyframes zoomStay {
-  0% {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-/*###########################################################################################################*/
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  background-color: black;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  width: 100%;
+  margin: 0;
   overflow: hidden;
+  background-color: black;
+  font-family: Arial, sans-serif;
+}
+
+canvas#girasol-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
 .popup-container {
-  width: 100%;
-  height: 100%;
-  border: 2px solid blueviolet;
-  box-sizing: border-box;
-  padding: 10px;
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-  
-.acr {
+
+#animated-text {
+  color: #ff00ff;
+  font-size: 70px;
   text-align: center;
-  font-size: 20px;
-  margin-top: 105px;
-  color: rgb(72, 10, 131);
-}
-
-/* Efecto neón con pulso lento */
-.title {
-  font-size: 50px;
-  text-align: center;
-  margin-top: 0px;
-  color: rgb(161, 8, 98);
-  text-shadow:
-    0 0 4px rgb(72, 10, 131),
-    0 0 8px violet;
-  animation: pulseNeon 5s infinite ease-in-out;
-}
-
-@keyframes pulseNeon {
-  0% {
-    text-shadow: 0 0 4px rgb(72, 10, 131), 0 0 8px violet;
-    opacity: 1;
-  }
-  25% {
-    text-shadow: 0 0 8px rgb(72, 10, 131), 0 0 16px violet;
-    opacity: 1;
-  }
-  50% {
-    text-shadow: 0 0 16px rgb(72, 10, 131), 0 0 32px violet;
-    opacity: 0.9;
-  }
-  75% {
-    text-shadow: 0 0 8px rgb(72, 10, 131), 0 0 16px violet;
-    opacity: 1;
-  }
-  100% {
-    text-shadow: 0 0 4px rgb(72, 10, 131), 0 0 8px violet;
-    opacity: 1;
-  }
-}
-
-/*####################################################################### EMOJIS */
-@keyframes fall {
-  0% { top: -10%; opacity: 1; }
-  100% { top: 110%; opacity: 0; }
-}
-
-/*####################################################################### DINOAMO */
-.te-dinoamo {
-  color: #00ccff;
   font-weight: bold;
-  font-family: 'Verdana', sans-serif;
-  text-align: center;
-  text-shadow:
-    0 0 6px #00ccff,
-    0 0 12px #0099cc,
-    0 0 18px #006699;
-  animation: pulseBlue 1.5s infinite ease-in-out;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
 }
 
-@keyframes pulseBlue {
+/* Animaciones */
+.animated-word {
+  animation: fade 0.6s ease-in-out;
+}
+
+.final-word {
+  animation: neon-pulse 3s infinite alternate;
+  font-size: 50%; /* cambia este % para probar tamaños: 400%, 500%, etc. */
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+  display: inline-block;
+}
+
+.gif-dino {
+  position: absolute;
+  width: 180px; /* ajusta este valor según lo grande que lo quieras */
+  top: 20%;
+  left: 30%;
+  z-index: 10;
+}
+
+.final-word .linea {
+  display: block;
+}
+
+
+/*################## Botón de descarga #########*/
+
+#boton-descarga {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 9999;
+}
+
+#boton-descarga.visible {
+  opacity: 1;
+}
+
+.boton-azul {
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px #007BFF;
+}
+
+
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes neon-pulse {
   0% {
-    text-shadow: 0 0 6px #00ccff, 0 0 12px #f806e4, 0 0 18px #ec0b0b;
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    text-shadow: 0 0 12px #66d9ff, 0 0 24px #f806e4, 0 0 30px #ec0b0b;
-    transform: scale(1.1);
-    opacity: 0.95;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
   }
   100% {
-    text-shadow: 0 0 6px #00ccff, 0 0 12px #f806e4, 0 0 18px #ec0b0b;
-    transform: scale(1);
-    opacity: 1;
+    text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
   }
 }
 
-/*####################################################################### ENCANTAS */
-.me-encantas {
-  color: #ff0000;
-  font-weight: bold;
-  font-family: 'Verdana', sans-serif;
-  text-align: center;
-  text-shadow:
-    0 0 6px #ff0000,
-    0 0 12px #cc0000,
-    0 0 18px #990000;
-  animation: pulsePinki 1.5s infinite ease-in-out;
+/* Confeti */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: hsl(calc(360 * var(--i)), 100%, 50%);
+  animation: explotar 1.5s ease-out forwards;
 }
 
-@keyframes pulsePinki {
-  0% {
-    text-shadow: 0 0 6px #ff0000, 0 0 12px #790101, 0 0 18px #ec0b0b;
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    text-shadow: 0 0 12px #ec0b0b, 0 0 24px #810202, 0 0 30px #ec0b0b;
-    transform: scale(1.1);
-    opacity: 0.95;
-  }
-  100% {
-    text-shadow: 0 0 6px #ec0b0b, 0 0 12px #810000, 0 0 18px #ec0b0b;
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/*####################################################################### QUIAMO */
-.te-quiamo {
-  color: #ffc400;
-  font-weight: bold;
-  font-family: 'Verdana', sans-serif;
-  text-align: center;
-  text-shadow:
-    0 0 6px #ffee00,
-    0 0 12px #ccad00,
-    0 0 18px #998f00;
-  animation: pulsePink 1.5s infinite ease-in-out;
-}
-
-@keyframes pulsePink {
-  0% {
-    text-shadow: 0 0 6px #fffb00, 0 0 12px #777901, 0 0 18px #fffb00;
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    text-shadow: 0 0 12px #fffb00, 0 0 24px #777901, 0 0 30px #fffb00;
-    transform: scale(1.1);
-    opacity: 0.95;
-  }
-  100% {
-    text-shadow: 0 0 6px #fffb00, 0 0 12px #777901, 0 0 18px #fffb00;
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes explotar {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)); opacity: 0; }
 }
