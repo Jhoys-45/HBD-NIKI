@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <title>IVI WEB</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <!-- Canvas para girasoles emoji -->
+  <canvas id="girasol-canvas"></canvas>
+
+  <!-- Contenedor del mensaje -->
   <div class="popup-container">
     <h1 id="animated-text" class="animated-word"></h1>
   </div>
 
+  <!-- Animación de texto palabra por palabra -->
   <script>
     const mensaje = "FELIZ CUMPLEAÑOS CHICA HELADO";
     const palabras = mensaje.split(" ");
@@ -21,21 +25,22 @@
     function mostrarPalabra() {
       contenedor.textContent = palabras[i];
       contenedor.classList.remove("animated-word");
-      setTimeout(() => {
-        contenedor.classList.add("animated-word");
-      }, 10);
+      void contenedor.offsetWidth;
+      contenedor.classList.add("animated-word");
 
       i++;
       if (i < palabras.length) {
-        setTimeout(mostrarPalabra, 2000); // Tiempo entre palabras
+        setTimeout(mostrarPalabra, 2000);
       } else {
-        // Mostrar mensaje completo solo una vez
         setTimeout(() => {
-          contenedor.textContent = mensaje;
           contenedor.classList.remove("animated-word");
-          setTimeout(() => {
-            contenedor.classList.add("animated-word");
-          }, 10);
+          contenedor.classList.add("final-word");
+
+          contenedor.innerHTML = `
+            <span class="linea">FELIZ</span>
+            <span class="linea">CUMPLEAÑOS</span>
+            <span class="linea">CHICA HELADO</span>
+          `;
         }, 2500);
       }
     }
@@ -43,125 +48,92 @@
     mostrarPalabra();
   </script>
 
-  <!-- Tus scripts de emojis y efectos siguen igual -->
+  <!-- Explosiones tipo confeti -->
   <script>
-    setTimeout(() => {
-      setInterval(() => {
-        const el = document.createElement('div');
-        el.textContent = '💙';
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-        el.style.animation = 'fall 6s linear forwards';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 6000);
-      }, 400);
-    }, 0);
-  </script>
+    function crearExplosion(x, y) {
+      const cantidad = 20;
+      for (let i = 0; i < cantidad; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti';
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
 
-  <script>
-    setTimeout(() => {
-      setInterval(() => {
-        const el = document.createElement('div');
-        el.textContent = 'TE QUIAMO';
-        el.className = 'te-quiamo';
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.animation = 'fall 6s linear forwards';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 6000);
-      }, 400);
-    }, 150);
-  </script>
+        const angulo = Math.random() * 2 * Math.PI;
+        const distancia = Math.random() * 100 + 50;
+        const dx = Math.cos(angulo) * distancia;
+        const dy = Math.sin(angulo) * distancia;
 
-  <script>
-    setTimeout(() => {
-      setInterval(() => {
-        const el = document.createElement('div');
-        el.textContent = '🌻';
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-        el.style.animation = 'fall 6s linear forwards';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 6000);
-      }, 400);
-    }, 300);
-  </script>
+        p.style.setProperty('--x', `${dx}px`);
+        p.style.setProperty('--y', `${dy}px`);
 
-  <script>
-    setTimeout(() => {
-      setInterval(() => {
-        const el = document.createElement('div');
-        el.textContent = 'ME ENCANTAS';
-        el.className = 'me-encantas';
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.animation = 'fall 6s linear forwards';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 6000);
-      }, 400);
-    }, 400);
-  </script>
-
-  <script>
-    setTimeout(() => {
-      setInterval(() => {
-        const el = document.createElement('div');
-        el.textContent = 'TE DINOAMO';
-        el.className = 'te-dinoamo';
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.animation = 'fall 6s linear forwards';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 6000);
-      }, 400);
-    }, 500);
-  </script>
-
-  <script>
-    let modoActual = 'hada';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 2000);
+      }
+    }
 
     setInterval(() => {
-      modoActual = modoActual === 'hada' ? 'burbuja' : 'hada';
-    }, 10000);
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      crearExplosion(x, y);
+    }, 1200);
+  </script>
 
-    document.addEventListener('mousemove', (e) => {
-      const partícula = document.createElement('div');
-      const size = Math.random() * 20 + 10;
+  <!-- Lluvia de girasoles tipo Matrix con emoji -->
+  <script>
+    const canvas = document.getElementById("girasol-canvas");
+    const ctx = canvas.getContext("2d");
 
-      partícula.style.position = 'fixed';
-      partícula.style.left = `${e.pageX}px`;
-      partícula.style.top = `${e.pageY}px`;
-      partícula.style.width = `${size}px`;
-      partícula.style.height = `${size}px`;
-      partícula.style.borderRadius = '50%';
-      partícula.style.pointerEvents = 'none';
-      partícula.style.zIndex = 9999;
-      partícula.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-      if (modoActual === 'hada') {
-        partícula.style.background = 'white';
-        partícula.style.opacity = 0.8;
-        partícula.style.boxShadow = '0 0 12px white, 0 0 24px violet';
-      } else {
-        const colores = ['#ff7eb9', '#ffd700', '#89f0e2', '#ffa07a', '#b19cd9'];
-        const color = colores[Math.floor(Math.random() * colores.length)];
-        partícula.style.background = color;
-        partícula.style.opacity = 0.6;
-        partícula.style.boxShadow = `0 0 8px ${color}, 0 0 16px white`;
+    const fontSize = 28;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = new Array(columns).fill(0);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.font = `${fontSize}px serif`;
+      ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
+      ctx.textAlign = "center";
+
+      for (let i = 0; i < drops.length; i++) {
+        const x = i * fontSize + fontSize / 2;
+        const y = drops[i] * fontSize;
+
+        ctx.fillText("🌻", x, y);
+
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
       }
 
-      partícula.style.transform = `translate(-50%, -50%) scale(${Math.random() * 0.8 + 0.6})`;
-      document.body.appendChild(partícula);
+      requestAnimationFrame(draw);
+    }
 
-      setTimeout(() => {
-        partícula.style.opacity = 0;
-        partícula.style.transform += ' translateY(-10px) scale(0.5)';
-        setTimeout(() => partícula.remove(), 1000);
-      }, 10);
+    draw();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
   </script>
+
+<div id="boton-descarga">
+  <a href="Pisuke.zip" download>
+    <button class="boton-azul">Instala tu regalo 💝</button>
+  </a>
+</div>
+
+<script>
+  setTimeout(() => {
+    const boton = document.getElementById("boton-descarga");
+    boton.classList.add("visible");
+  }, 10000); // 10 segundos
+</script>
 
 </body>
 </html>
