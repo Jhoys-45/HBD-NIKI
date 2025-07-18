@@ -2,30 +2,81 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IVI WEB</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Canvas para girasoles emoji -->
+  <!-- Canvas para lluvia de girasoles tipo Matrix -->
   <canvas id="girasol-canvas"></canvas>
 
   <!-- Contenedor del mensaje -->
   <div class="popup-container">
-    <h1 id="animated-text" class="animated-word"></h1>
+    <h1 id="animated-text" class="animated-word" aria-live="polite"></h1>
   </div>
 
-  <!-- Animación de texto palabra por palabra -->
+  <!-- Contenedor del pastel -->
+  <div id="pastel-container" style="display: none;">
+    <div class="numero-cumple"></div>
+    <div class="pastel-parte pastel-base"></div>
+    <div class="pastel-parte capa1"></div>
+    <div class="pastel-parte capa2"></div>
+    <div class="pastel-parte capa3"></div>
+
+    <!-- Velas -->
+    <div class="vela vela-izquierda">
+      <div class="llama"></div>
+    </div>
+    <div class="vela vela-derecha">
+      <div class="llama"></div>
+    </div>
+  </div>
+
   <script>
+  window.addEventListener("DOMContentLoaded", function () {
+    const añoActual = new Date().getFullYear();
+    const edad = añoActual - 2004;
+
+    const numeroCumple = document.querySelector(".numero-cumple");
+    if (numeroCumple) {
+      numeroCumple.textContent = edad;
+    }
+  });
+  </script>
+
+  <!-- Regalos animados -->
+  <div class="regalo regalo-izquierdo aparecer retardo">
+    <div class="tapa"></div>
+    <div class="cinta-vertical"></div>
+    <div class="moño"></div>
+  </div>
+
+  <div class="regalo regalo-derecho aparecer retardo">
+    <div class="tapa"></div>
+    <div class="cinta-vertical"></div>
+    <div class="moño"></div>
+  </div>
+
+  <!-- Botón de descarga -->
+  <div id="boton-descarga" style="display: none;">
+    <a href="Pisuke.zip" download>
+      <button class="boton-azul">Instala tu regalo 💝</button>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Texto palabra por palabra
     const mensaje = "FELIZ CUMPLEAÑOS CHICA HELADO";
     const palabras = mensaje.split(" ");
     const contenedor = document.getElementById("animated-text");
-
     let i = 0;
 
     function mostrarPalabra() {
-      contenedor.textContent = palabras[i];
+      contenedor.innerText = palabras[i];
       contenedor.classList.remove("animated-word");
-      void contenedor.offsetWidth;
+      void contenedor.offsetWidth; // Re-trigger animation
       contenedor.classList.add("animated-word");
 
       i++;
@@ -35,106 +86,65 @@
         setTimeout(() => {
           contenedor.classList.remove("animated-word");
           contenedor.classList.add("final-word");
-
-          contenedor.innerHTML = `
-            <span class="linea">FELIZ</span>
-            <span class="linea">CUMPLEAÑOS</span>
-            <span class="linea">CHICA HELADO</span>
-          `;
+          contenedor.style.display = "none";
+          document.getElementById("pastel-container").style.display = "flex";
         }, 2500);
       }
     }
 
     mostrarPalabra();
-  </script>
 
-  <!-- Explosiones tipo confeti -->
-  <script>
-    function crearExplosion(x, y) {
-      const cantidad = 20;
-      for (let i = 0; i < cantidad; i++) {
-        const p = document.createElement('div');
-        p.className = 'confetti';
-        p.style.left = `${x}px`;
-        p.style.top = `${y}px`;
+    // Efecto Matrix con girasoles
+    const canvas = document.getElementById("girasol-canvas");
+    const ctx = canvas.getContext("2d");
 
-        const angulo = Math.random() * 2 * Math.PI;
-        const distancia = Math.random() * 100 + 50;
-        const dx = Math.cos(angulo) * distancia;
-        const dy = Math.sin(angulo) * distancia;
-
-        p.style.setProperty('--x', `${dx}px`);
-        p.style.setProperty('--y', `${dy}px`);
-
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 2000);
-      }
+    function ajustarCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
 
-    setInterval(() => {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      crearExplosion(x, y);
-    }, 1200);
-  </script>
+    ajustarCanvas();
 
-<!-- Lluvia de girasoles tipo Matrix con emoji -->
-<script>
-  const canvas = document.getElementById("girasol-canvas");
-  const ctx = canvas.getContext("2d");
+    const fontSize = 50;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = new Array(columns).fill(0);
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const fontSize = 50;
-  const columns = Math.floor(canvas.width / fontSize);
-  const drops = new Array(columns).fill(0);
+      ctx.font = `${fontSize}px serif`;
+      ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
+      ctx.textAlign = "center";
 
-  function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < drops.length; i++) {
+        const x = i * fontSize + fontSize / 2;
+        const y = Math.floor(drops[i]) * fontSize;
 
-    ctx.font = `${fontSize}px serif`;
-    ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
-    ctx.textAlign = "center";
+        ctx.fillText("🌻", x, y);
 
-    for (let i = 0; i < drops.length; i++) {
-      const x = i * fontSize + fontSize / 2;
-      const y = Math.floor(drops[i]) * fontSize;
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
 
-      ctx.fillText("🌻", x, y);
-
-      if (y > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
+        drops[i] += 0.2;
       }
 
-      drops[i] += 0.2; // velocidad reducida a la mitad
+      requestAnimationFrame(draw);
     }
 
-    requestAnimationFrame(draw);
-  }
+    draw();
 
-  draw();
+    window.addEventListener("resize", () => {
+      ajustarCanvas();
+    });
 
-  window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-</script>
-
-
-<div id="boton-descarga">
-  <a href="Pisuke.zip" download>
-    <button class="boton-azul">Instala tu regalo 💝</button>
-  </a>
-</div>
-
-<script>
-  setTimeout(() => {
-    const boton = document.getElementById("boton-descarga");
-    boton.classList.add("visible");
-  }, 10000); // 10 segundos
-</script>
-
+    // Mostrar botón de descarga después de 10s
+    setTimeout(() => {
+      const boton = document.getElementById("boton-descarga");
+      boton.style.display = "block";
+      boton.classList.add("visible");
+    }, 10000);
+  </script>
 </body>
 </html>
